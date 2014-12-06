@@ -26,7 +26,7 @@ public class Driver {
 	courses.get(0).sections.get(1).addItem(new Item("Exam1", 100, 84));
 	courses.get(0).sections.get(1).addItem(new Item("Exam2", 100, 95));
 	courses.get(0).sections.get(1).addItem(new Item("Exam3", 100, 95));
-	courses.get(0).sections.get(1).addItem(new Item("Final", 100, 0));
+	courses.get(0).sections.get(1).addItem(new Item("Final", 100));
 	courses.get(0).sections.get(1).dropLowest(1);
 
 	courses.get(0).sections.get(2).addItem(new Item("Quiz1", 10, 10));
@@ -46,6 +46,7 @@ public class Driver {
 	courses.get(0).sections.get(2).addItem(new Item("Quiz15", 10));
 
 	System.out.println(courses.get(0).getGrade());
+	System.out.println(courses.get(0).getNecessaryGrade(0, 7, .9) * 100);
     }
 
 }

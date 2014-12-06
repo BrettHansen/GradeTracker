@@ -21,6 +21,10 @@ public class Section {
 	items.add(ass);
     }
     
+    public double getWeightedGrade() {
+	return getGrade() * weight;
+    }
+    
     public double getGrade() {
 	Node[] grades = new Node[items.size()];
 	for(int i = 0; i < grades.length; i++)
@@ -29,16 +33,37 @@ public class Section {
 	Arrays.sort(grades, Collections.reverseOrder());
 	
 	double earnd = 0;
-	double total = 0;
-	for(int i = 0; i < grades.length - dropLowest; i++) {
+	for(int i = 0; i < grades.length - dropLowest; i++)
 	    earnd += grades[i].earnd;
-	    total += grades[i].total;
-	}
-	return earnd / total;
+	return earnd / getTotalPoints();
     }
     
-    public double getWeightedGrade() {
-	return getGrade() * weight;
+    public double getTotalPoints() {
+	Node[] grades = new Node[items.size()];
+	for(int i = 0; i < grades.length; i++)
+	    grades[i] = new Node(items.get(i).earndPoints, items.get(i).totalPoints);
+	
+	Arrays.sort(grades, Collections.reverseOrder());
+	
+	double total = 0;
+	for(int i = 0; i < grades.length - dropLowest; i++)
+	    total += grades[i].total;
+	
+	return total;
+    }
+    
+    public double getWeightedGradeExcluding(int item) {
+	Item temp = items.remove(item);
+	boolean dropped = false;
+	if(dropLowest != 0) {
+	    dropLowest--;
+	    dropped = true;
+	}
+	double ret = getWeightedGrade();
+	if(dropped)
+	    dropLowest++;
+	items.add(item, temp);
+	return ret;
     }
     
     public void dropLowest(int n) {

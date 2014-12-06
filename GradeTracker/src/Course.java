@@ -22,4 +22,14 @@ public class Course {
 	}
 	return grade * 100;
     }
+    
+    public double getNecessaryGrade(int sect, int item, double want) {
+	double grade = 0;
+	for(int s = 0; s < sections.size(); s++) {
+	    if(s != sect)
+		grade += sections.get(s).getWeightedGrade();
+	}
+	grade += sections.get(sect).getWeightedGradeExcluding(item);
+	return (want - grade) / (sections.get(sect).items.get(item).totalPoints / sections.get(sect).getTotalPoints() * sections.get(sect).weight);
+    }
 }

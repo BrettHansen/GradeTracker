@@ -82,13 +82,13 @@ public class Element {
 	    g2.drawString(String.format("%-8.2f", earndPoints), 200, 15);
 	
 	if (totalPoints != -1) {
-	    g2.drawString(String.format("/"), 240, 15);
-	    g2.drawString(String.format("%-8.2f", totalPoints), 250, 15);
-	    g2.drawString(String.format("="), 292, 15);
+	    g2.drawString(String.format("/"), 245, 15);
+	    g2.drawString(String.format("%-8.2f", totalPoints), 255, 15);
+	    g2.drawString(String.format("="), 300, 15);
 	}
 	
 	if (earndPoints != -1 && totalPoints != -1)
-	    g2.drawString(String.format("%-7.2f%%", earndPoints / totalPoints * 100), 300, 15);
+	    g2.drawString(String.format("%-7.2f%%", earndPoints / totalPoints * 100), 310, 15);
 
 	g2.dispose();
 	return image;

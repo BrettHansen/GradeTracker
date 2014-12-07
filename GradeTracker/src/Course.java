@@ -7,7 +7,11 @@ public class Course {
     public ArrayList<Section> sections;
     public Element element;
     
+    public boolean collapsed;
+    
     public Course(String name) {
+	collapsed = false;
+	
 	this.name = name;
 	sections = new ArrayList<Section>();
 	element = new Element(Element.TYPE_COURSE, name);
@@ -33,5 +37,9 @@ public class Course {
 	}
 	grade += sections.get(sect).getWeightedGradeExcluding(item);
 	return (want - grade) / (sections.get(sect).items.get(item).totalPoints / sections.get(sect).getTotalPoints() * sections.get(sect).weight);
+    }
+    
+    public void toggleCollapsed() {
+	collapsed = !collapsed;
     }
 }

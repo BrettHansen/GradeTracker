@@ -10,6 +10,8 @@ public class Section {
     public ArrayList<Item> items;
     public Element element;
     
+    public boolean collapsed;
+    
     private double earndPoints;
     private double totalPoints;
     
@@ -18,6 +20,7 @@ public class Section {
     public Section(String name, double weight) {
 	this.name = name;
 	this.weight = weight;
+	collapsed = false;
 	items = new ArrayList<Item>();
 	updatePoints();
     }
@@ -83,6 +86,10 @@ public class Section {
 	    totalPoints += items.get(i).totalPoints;
 	}
 	element = new Element(Element.TYPE_SECTION, name, totalPoints, earndPoints);
+    }
+    
+    public void toggleCollapsed() {
+	collapsed = !collapsed;
     }
     
     private class Node implements Comparable<Node> {

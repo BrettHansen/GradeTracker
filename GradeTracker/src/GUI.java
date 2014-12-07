@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -26,6 +28,8 @@ public class GUI extends JPanel {
     private int height;
     private int lineHeight;
 
+    private Element lastHighlight;
+
     public GUI(ArrayList<Course> courses) {
 	this.courses = courses;
 	width = 420;
@@ -44,6 +48,8 @@ public class GUI extends JPanel {
 	scrollpane.setPreferredSize(new Dimension(width, height));
 	frame.getContentPane().add(scrollpane);
 	frame.pack();
+
+	addMouseListener(new MouseEventListener());
 
 	timer = new Timer(30, new TimerListener());
 	timer.start();
@@ -83,12 +89,16 @@ public class GUI extends JPanel {
 	    g2.drawImage(cTemp.element.getImage(), 0, position, null);
 	    for (int s = 0; s < cTemp.sections.size(); s++) {
 		sTemp = cTemp.sections.get(s);
-		sTemp.element.setPosition(new Point(0, position += 20));
-		g2.drawImage(sTemp.element.getImage(), 0, position, null);
-		for (int i = 0; i < sTemp.items.size(); i++) {
-		    iTemp = sTemp.items.get(i);
-		    iTemp.element.setPosition(new Point(0, position += 20));
-		    g2.drawImage(iTemp.element.getImage(), 0, position, null);
+		if (!cTemp.collapsed) {
+		    sTemp.element.setPosition(new Point(0, position += 20));
+		    g2.drawImage(sTemp.element.getImage(), 0, position, null);
+		    for (int i = 0; i < sTemp.items.size(); i++) {
+			iTemp = sTemp.items.get(i);
+			if (!sTemp.collapsed) {
+			    iTemp.element.setPosition(new Point(0, position += 20));
+			    g2.drawImage(iTemp.element.getImage(), 0, position, null);
+			}
+		    }
 		}
 	    }
 	}
@@ -98,35 +108,97 @@ public class GUI extends JPanel {
 	return getMousePosition();
     }
 
+    private int[] getHighlightedCoords(Point mouse) {
+	Course cTemp;
+	Section sTemp;
+	Item iTemp;
+	if (mouse != null) {
+	    for (int c = 0; c < courses.size(); c++) {
+		cTemp = courses.get(c);
+		if (cTemp.element.contains(mouse))
+		    return new int[] { c, -1, -1 };
+		for (int s = 0; s < cTemp.sections.size(); s++) {
+		    sTemp = cTemp.sections.get(s);
+		    if (!cTemp.collapsed && sTemp.element.contains(mouse))
+			return new int[] { c, s, -1 };
+		    for (int i = 0; i < sTemp.items.size(); i++) {
+			iTemp = sTemp.items.get(i);
+			if (!sTemp.collapsed && iTemp.element.contains(mouse))
+			    return new int[] { c, s, i };
+		    }
+		}
+	    }
+	}
+	return null;
+    }
+
+    private Element getElementFromCoords(int[] coords) {
+	if (coords == null)
+	    return null;
+
+	if (coords[1] != -1) {
+	    if (coords[2] != -1) {
+		return courses.get(coords[0]).sections.get(coords[1]).items.get(coords[2]).element;
+	    }
+	    return courses.get(coords[0]).sections.get(coords[1]).element;
+	}
+	return courses.get(coords[0]).element;
+    }
+
     private class TimerListener implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 	    Point mouse = getMousePos();
-	    if(mouse == null)
-		mouse = new Point(-1, -1);
-	    Course cTemp;
-	    Section sTemp;
-	    Item iTemp;
-	    for (int c = 0; c < courses.size(); c++) {
-		cTemp = courses.get(c);
-		cTemp.element.unhighlight();
-		if (cTemp.element.contains(mouse))
-		    cTemp.element.highlight();
-		for (int s = 0; s < cTemp.sections.size(); s++) {
-		    sTemp = cTemp.sections.get(s);
-		    sTemp.element.unhighlight();
-		    if (sTemp.element.contains(mouse))
-			sTemp.element.highlight();
-		    for (int i = 0; i < sTemp.items.size(); i++) {
-			iTemp = sTemp.items.get(i);
-			iTemp.element.unhighlight();
-			if (iTemp.element.contains(mouse))
-			    iTemp.element.highlight();
-		    }
-		}
-	    }
+	    if (lastHighlight != null)
+		lastHighlight.unhighlight();
+	    lastHighlight = getElementFromCoords(getHighlightedCoords(mouse));
+	    if (lastHighlight != null)
+		lastHighlight.highlight();
 	    repaint();
+	}
+
+    }
+
+    private class MouseEventListener implements MouseListener {
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+	    int[] coords = getHighlightedCoords(e.getPoint());
+	    if (coords == null)
+		return;
+
+	    if (coords[2] == -1) {
+		if (coords[1] == -1) {
+		    courses.get(coords[0]).toggleCollapsed();
+		    return;
+		}
+		courses.get(coords[0]).sections.get(coords[1]).toggleCollapsed();
+	    }
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent arg0) {
+	    // TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent arg0) {
+	    // TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent arg0) {
+	    // TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent arg0) {
+	    // TODO Auto-generated method stub
+
 	}
 
     }

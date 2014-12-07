@@ -4,9 +4,11 @@ import java.util.ArrayList;
 public class Driver {
     
     private ArrayList<Course> courses;
+    private GUI gui;
     
     public Driver() {
 	courses = new ArrayList<Course>();
+	gui = new GUI(courses);
 	
 	courses.add(new Course("CSE 310"));
 	courses.get(0).addSection(new Section("Homework", .4));

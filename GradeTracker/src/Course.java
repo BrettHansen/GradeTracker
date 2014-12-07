@@ -5,10 +5,12 @@ public class Course {
     
     public String name;
     public ArrayList<Section> sections;
+    public Element element;
     
     public Course(String name) {
 	this.name = name;
 	sections = new ArrayList<Section>();
+	element = new Element(Element.TYPE_COURSE, name);
     }
     
     public void addSection(Section sect) {

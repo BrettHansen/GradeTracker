@@ -34,18 +34,18 @@ public class Driver {
 	courses.get(0).sections.get(2).addItem(new Item("Quiz1", 10, 10));
 	courses.get(0).sections.get(2).addItem(new Item("Quiz2", 10, 8.5));
 	courses.get(0).sections.get(2).addItem(new Item("Quiz3", 10, 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz4", 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz5", 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz6", 10));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz4", 10, 0));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz5", 10, 0));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz6", 10, 0));
 	courses.get(0).sections.get(2).addItem(new Item("Quiz7", 10, 8));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz8", 10));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz8", 10, 0));
 	courses.get(0).sections.get(2).addItem(new Item("Quiz9", 10, 10));
 	courses.get(0).sections.get(2).addItem(new Item("Quiz10", 10, 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz11", 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz12", 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz13", 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz14", 10));
-	courses.get(0).sections.get(2).addItem(new Item("Quiz15", 10));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz11", 10, 0));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz12", 10, 0));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz13", 10, 0));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz14", 10, 0));
+	courses.get(0).sections.get(2).addItem(new Item("Quiz15", 10, 0));
 
 	System.out.println(courses.get(0).getGrade());
 	System.out.println(courses.get(0).getNecessaryGrade(0, 7, .9) * 100);

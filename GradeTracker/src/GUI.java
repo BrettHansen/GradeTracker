@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -75,16 +76,21 @@ public class GUI extends JPanel {
 
     private void drawCourses(Graphics2D g2) {
 	int position = 0;
-	g2.setColor(Color.black);
+	Course cTemp;
+	Section sTemp;
+	Item iTemp;
 	for (int c = 0; c < courses.size(); c++) {
-	    g2.drawString(courses.get(c).name, 10, position += 20);
-	    for (int s = 0; s < courses.get(c).sections.size(); s++) {
-		g2.drawString(courses.get(c).sections.get(s).name, 20, position += 20);
-		for (int i = 0; i < courses.get(c).sections.get(s).items.size(); i++) {
-		    Item item = courses.get(c).sections.get(s).items.get(i);
-		    g2.drawString(item.name, 30, position += 20);
-		    g2.drawString(String.format("%.2f / %.2f : %.2f%%",
-			    item.earndPoints, item.totalPoints, item.earndPoints / item.totalPoints), 200, position);
+	    cTemp = courses.get(c);
+	    cTemp.element.setPosition(new Point(0, position += 20));
+	    g2.drawImage(cTemp.element.getImage(), 0, position, null);
+	    for (int s = 0; s < cTemp.sections.size(); s++) {
+		sTemp = cTemp.sections.get(s);
+		sTemp.element.setPosition(new Point(0, position += 20));
+		g2.drawImage(sTemp.element.getImage(), 0, position, null);
+		for (int i = 0; i < sTemp.items.size(); i++) {
+		    iTemp = sTemp.items.get(i);
+		    iTemp.element.setPosition(new Point(0, position += 20));
+		    g2.drawImage(iTemp.element.getImage(), 0, position, null);
 		}
 	    }
 	}

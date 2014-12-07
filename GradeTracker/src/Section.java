@@ -8,6 +8,7 @@ public class Section {
     public String name;
     public double weight;
     public ArrayList<Item> items;
+    public Element element;
     
     private int dropLowest;
         
@@ -15,6 +16,7 @@ public class Section {
 	this.name = name;
 	this.weight = weight;
 	items = new ArrayList<Item>();
+	element = new Element(Element.TYPE_SECTION, name);
     }
     
     public void addItem(Item ass) {

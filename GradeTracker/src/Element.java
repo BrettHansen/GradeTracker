@@ -15,6 +15,9 @@ public class Element {
     private double totalPoints;
 
     private Rectangle bounds;
+    private Color normalColor;
+    private Color highlightColor;
+    private Color bgColor;
 
     private int type;
 
@@ -32,6 +35,10 @@ public class Element {
 	this.name = name;
 	this.totalPoints = totalPoints;
 	this.earndPoints = earndPoints;
+	
+	normalColor = new Color(220, 220, 220);
+	highlightColor = new Color(180, 180, 180);
+	bgColor = normalColor;
     }
 
     public void setPosition(Point pos) {
@@ -47,23 +54,38 @@ public class Element {
 	    break;
 	}
     }
+    
+    public boolean contains(Point p) {
+	return bounds.contains(p);
+    }
+    
+    public void highlight() {
+	bgColor = highlightColor;
+    }
+    
+    public void unhighlight() {
+	bgColor = normalColor;
+    }
 
     public BufferedImage getImage() {
 	BufferedImage image = new BufferedImage(400, 20, BufferedImage.TYPE_INT_ARGB);
 	Graphics2D g2 = (Graphics2D) image.getGraphics();
 
-	g2.setColor(Color.black);
-	g2.drawRect(0, 0, 399, 20);
+	g2.setColor(bgColor);
+	g2.fillRect(0, 0, 399, 20);
+	g2.setColor(highlightColor);
+	g2.drawRect(0, 0, 399, 19);
+	g2.setColor(Color.darkGray);
 	g2.drawString(name, 15 * type + 5, 15);
 	
 	if (earndPoints != -1)
-	    g2.drawString(String.format("%-7.2f", earndPoints), 200, 15);
+	    g2.drawString(String.format("%-8.2f", earndPoints), 200, 15);
 	
-	if (totalPoints != -1)
+	if (totalPoints != -1) {
 	    g2.drawString(String.format("/"), 240, 15);
-	
-	if (totalPoints != -1)
-	    g2.drawString(String.format("%-7.2f =", totalPoints), 250, 15);
+	    g2.drawString(String.format("%-8.2f", totalPoints), 250, 15);
+	    g2.drawString(String.format("="), 292, 15);
+	}
 	
 	if (earndPoints != -1 && totalPoints != -1)
 	    g2.drawString(String.format("%-7.2f%%", earndPoints / totalPoints * 100), 300, 15);

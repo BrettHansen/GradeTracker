@@ -10,17 +10,21 @@ public class Section {
     public ArrayList<Item> items;
     public Element element;
     
+    private double earndPoints;
+    private double totalPoints;
+    
     private int dropLowest;
         
     public Section(String name, double weight) {
 	this.name = name;
 	this.weight = weight;
 	items = new ArrayList<Item>();
-	element = new Element(Element.TYPE_SECTION, name);
+	updatePoints();
     }
     
     public void addItem(Item ass) {
 	items.add(ass);
+	updatePoints();
     }
     
     public double getWeightedGrade() {
@@ -70,6 +74,15 @@ public class Section {
     
     public void dropLowest(int n) {
 	dropLowest = n;
+    }
+    
+    public void updatePoints() {
+	earndPoints = totalPoints = 0;
+	for(int i = 0; i < items.size(); i++) {
+	    earndPoints += items.get(i).earndPoints;
+	    totalPoints += items.get(i).totalPoints;
+	}
+	element = new Element(Element.TYPE_SECTION, name, totalPoints, earndPoints);
     }
     
     private class Node implements Comparable<Node> {

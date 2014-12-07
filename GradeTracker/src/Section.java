@@ -12,9 +12,6 @@ public class Section {
     
     public boolean collapsed;
     
-    private double earndPoints;
-    private double totalPoints;
-    
     private int dropLowest;
         
     public Section(String name, double weight) {
@@ -77,15 +74,12 @@ public class Section {
     
     public void dropLowest(int n) {
 	dropLowest = n;
+	updatePoints();
     }
     
     public void updatePoints() {
-	earndPoints = totalPoints = 0;
-	for(int i = 0; i < items.size(); i++) {
-	    earndPoints += items.get(i).earndPoints;
-	    totalPoints += items.get(i).totalPoints;
-	}
-	element = new Element(Element.TYPE_SECTION, name, totalPoints, earndPoints);
+	double totalPoints = getTotalPoints();
+	element = new Element(Element.TYPE_SECTION, name, totalPoints, getGrade() * totalPoints);
     }
     
     public void toggleCollapsed() {

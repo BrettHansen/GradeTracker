@@ -35,7 +35,7 @@ public class Element {
 	this.name = name;
 	this.totalPoints = totalPoints;
 	this.earndPoints = earndPoints;
-	
+
 	normalColor = new Color(220, 220, 220);
 	highlightColor = new Color(180, 180, 180);
 	bgColor = normalColor;
@@ -54,15 +54,15 @@ public class Element {
 	    break;
 	}
     }
-    
+
     public boolean contains(Point p) {
 	return bounds.contains(p);
     }
-    
+
     public void highlight() {
 	bgColor = highlightColor;
     }
-    
+
     public void unhighlight() {
 	bgColor = normalColor;
     }
@@ -78,17 +78,22 @@ public class Element {
 	g2.setColor(Color.darkGray);
 	g2.drawString(name, 15 * type + 5, 15);
 	
-	if (earndPoints != -1)
-	    g2.drawString(String.format("%-8.2f", earndPoints), 200, 15);
-	
-	if (totalPoints != -1) {
-	    g2.drawString(String.format("/"), 245, 15);
-	    g2.drawString(String.format("%-8.2f", totalPoints), 255, 15);
-	    g2.drawString(String.format("="), 300, 15);
+	String p1 = "";
+	String p2 = "";
+	String p3 = "";
+
+	if (type == TYPE_ITEM || type == TYPE_SECTION) {
+	    if (earndPoints != -1)
+		p1 = String.format("%-8.2f  /", earndPoints);
+	    if (totalPoints != -1)
+		p2 = String.format("%-8.2f  =", totalPoints);
+	    if (earndPoints != -1 && totalPoints != -1)
+		p3 = String.format("%-7.2f", earndPoints / totalPoints * 100);
 	}
-	
-	if (earndPoints != -1 && totalPoints != -1)
-	    g2.drawString(String.format("%-7.2f%%", earndPoints / totalPoints * 100), 310, 15);
+
+	    g2.drawString(p1, 200, 15);
+	    g2.drawString(p2, 255, 15);
+	    g2.drawString(p3, 320, 15);
 
 	g2.dispose();
 	return image;

@@ -84,16 +84,16 @@ public class Element {
 
 	if (type == TYPE_ITEM || type == TYPE_SECTION) {
 	    if (earndPoints != -1)
-		p1 = String.format("%-8.2f  /", earndPoints);
+	    	p1 = String.format("%8.2f  /  ", earndPoints);
 	    if (totalPoints != -1)
-		p2 = String.format("%-8.2f  =", totalPoints);
+	    	p2 = String.format("%8.2f  =", totalPoints);
 	    if (earndPoints != -1 && totalPoints != -1)
-		p3 = String.format("%-7.2f", earndPoints / totalPoints * 100);
+	    	p3 = String.format("  %7.2f", earndPoints / totalPoints * 100);
 	}
 
-	    g2.drawString(p1, 200, 15);
-	    g2.drawString(p2, 255, 15);
-	    g2.drawString(p3, 320, 15);
+	if (totalPoints != -1) {
+	    g2.drawString(String.format("%s%s%s", p1, p2, p3), 200, 15);
+	}
 
 	g2.dispose();
 	return image;

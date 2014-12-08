@@ -77,23 +77,29 @@ public class Element {
 	g2.fillRect(0, 0, image.getWidth() - 1, image.getHeight());
 	g2.setColor(highlightColor);
 	g2.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
+	if (type == TYPE_COURSE || type == TYPE_SECTION) {
+	    g2.setColor(Color.black);
+	    g2.drawLine(0, 0, image.getWidth(), 0);
+	    if (type == TYPE_COURSE)
+		g2.drawLine(0, 1, image.getWidth(), 1);
+	}
 	g2.setColor(Color.darkGray);
 	g2.setFont(new Font("Courier", 0, 12));
-	g2.drawString(name, 25 * type + 5, 15);
-	
+	g2.drawString(String.format("%.18s", name), 30 * type + 5, 15);
+
 	String p1 = "";
 	String p2 = "";
 	String p3 = "";
 
 	if (type == TYPE_ITEM || type == TYPE_SECTION) {
 	    if (earndPoints != -1)
-	    	p1 = String.format("%6.2f  /  ", earndPoints);
+		p1 = String.format("%6.2f  /  ", earndPoints);
 	    if (totalPoints != -1)
-	    	p2 = String.format("%6.2f  =", totalPoints);
+		p2 = String.format("%6.2f  =", totalPoints);
 	    if (earndPoints != -1 && totalPoints != -1)
-	    	p3 = String.format("  %7.2f %%", earndPoints / totalPoints * 100);
+		p3 = String.format("  %7.2f %%", earndPoints / totalPoints * 100);
 	}
-	
+
 	if (type == TYPE_COURSE) {
 	    g2.setFont(new Font("Courier", 1, 12));
 	    p3 = String.format("%.2f %%", percentage);

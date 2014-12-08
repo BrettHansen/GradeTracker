@@ -50,6 +50,7 @@ public class Driver {
 	courses.get(1).addSection(new Section("WeBWorK", .2));
 	courses.get(1).addSection(new Section("MATLAB", .1));
 	courses.get(1).addSection(new Section("Test", .7));
+	courses.get(1).addSection(new Section("Extra Credit", .01));
 	
 	courses.get(1).sections.get(0).addItem(new Item("1.1 & 1.2", 10, 10));
 	courses.get(1).sections.get(0).addItem(new Item("1.3 & 1.4", 10, 10));
@@ -78,6 +79,8 @@ public class Driver {
 	courses.get(1).sections.get(2).addItem(new Item("Test 2", 150, 118));
 	courses.get(1).sections.get(2).addItem(new Item("Test 3", 60, 60));
 	courses.get(1).sections.get(2).addItem(new Item("Final", 150, 128.6));
+	
+	courses.get(1).sections.get(3).addItem(new Item("Syllabus Quiz", 6, 6));
 	
 	Course cTemp;
 	for(int c = 0; c < courses.size(); c++) {

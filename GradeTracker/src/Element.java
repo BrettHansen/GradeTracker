@@ -20,6 +20,7 @@ public class Element {
     private Color normalColor;
     private Color highlightColor;
     private Color bgColor;
+    private boolean colorCodedOutput;
 
     private int type;
 
@@ -41,6 +42,9 @@ public class Element {
 	normalColor = new Color(220, 220, 220);
 	highlightColor = new Color(180, 180, 180);
 	bgColor = normalColor;
+	
+	if(type == TYPE_ITEM)
+	    colorCodedOutput = true;
     }
 
     public void setPosition(Point pos) {
@@ -76,7 +80,7 @@ public class Element {
 	g2.setColor(bgColor);
 	g2.fillRect(0, 0, image.getWidth() - 1, image.getHeight());
 	g2.setColor(highlightColor);
-	g2.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
+	g2.drawRect(0, 0, image.getWidth(), image.getHeight());
 	if (type == TYPE_COURSE || type == TYPE_SECTION) {
 	    g2.setColor(Color.black);
 	    g2.drawLine(0, 0, image.getWidth(), 0);
@@ -105,7 +109,10 @@ public class Element {
 	    p3 = String.format("%.2f %%", percentage);
 	}
 
+	double perc = earndPoints / totalPoints;
 	if (totalPoints != -1 || type == TYPE_COURSE) {
+	    if (colorCodedOutput)
+		g2.setColor(new Color((perc < .95) ? (int) ((1 - perc / .95) * 240) : 0, (int) (perc * 200), 20));
 	    g2.drawString(String.format("%s%s%s", p1, p2, p3), 200, 15);
 	}
 

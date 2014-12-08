@@ -80,7 +80,7 @@ public class Driver {
 	courses.get(1).sections.get(2).addItem(new Item("Test 3", 60, 60));
 	courses.get(1).sections.get(2).addItem(new Item("Final", 150, 128.6));
 	
-	courses.get(1).sections.get(3).addItem(new Item("Syllabus Quiz", 6, 6));
+	courses.get(1).sections.get(3).addItem(new Item("Syllabus Quiz", 6, 3));
 	
 	Course cTemp;
 	for(int c = 0; c < courses.size(); c++) {

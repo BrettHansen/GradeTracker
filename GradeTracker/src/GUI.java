@@ -32,7 +32,7 @@ public class GUI extends JPanel {
 
     public GUI(ArrayList<Course> courses) {
 	this.courses = courses;
-	width = 420;
+	width = 500;
 	height = 500;
 	lineHeight = 20;
 
@@ -123,7 +123,7 @@ public class GUI extends JPanel {
 			return new int[] { c, s, -1 };
 		    for (int i = 0; i < sTemp.items.size(); i++) {
 			iTemp = sTemp.items.get(i);
-			if (!sTemp.collapsed && iTemp.element.contains(mouse))
+			if (!sTemp.collapsed && !cTemp.collapsed && iTemp.element.contains(mouse))
 			    return new int[] { c, s, i };
 		    }
 		}

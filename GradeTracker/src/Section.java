@@ -17,8 +17,9 @@ public class Section {
     public Section(String name, double weight) {
 	this.name = name;
 	this.weight = weight;
-	collapsed = false;
+	collapsed = true;
 	items = new ArrayList<Item>();
+	element = new Element(Element.TYPE_SECTION, name);
 	updatePoints();
     }
     
@@ -79,11 +80,18 @@ public class Section {
     
     public void updatePoints() {
 	double totalPoints = getTotalPoints();
-	element = new Element(Element.TYPE_SECTION, name, totalPoints, getGrade() * totalPoints);
+	element.name = getName() + name;
+	element.earndPoints = getGrade() * totalPoints;
+	element.totalPoints = totalPoints;
+    }
+    
+    private String getName() {
+	return (collapsed ? " [+] " : " [-] ");
     }
     
     public void toggleCollapsed() {
 	collapsed = !collapsed;
+	element.name = getName() + name;
     }
     
     private class Node implements Comparable<Node> {

@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -10,9 +11,10 @@ public class Element {
     public static final int TYPE_SECTION = 1;
     public static final int TYPE_ITEM = 2;
 
-    private String name;
-    private double earndPoints;
-    private double totalPoints;
+    public String name;
+    public double earndPoints;
+    public double totalPoints;
+    public double percentage;
 
     private Rectangle bounds;
     private Color normalColor;
@@ -68,15 +70,16 @@ public class Element {
     }
 
     public BufferedImage getImage() {
-	BufferedImage image = new BufferedImage(400, 20, BufferedImage.TYPE_INT_ARGB);
+	BufferedImage image = new BufferedImage(500, 20, BufferedImage.TYPE_INT_ARGB);
 	Graphics2D g2 = (Graphics2D) image.getGraphics();
 
 	g2.setColor(bgColor);
-	g2.fillRect(0, 0, 399, 20);
+	g2.fillRect(0, 0, image.getWidth() - 1, image.getHeight());
 	g2.setColor(highlightColor);
-	g2.drawRect(0, 0, 399, 19);
+	g2.drawRect(0, 0, image.getWidth() - 1, image.getHeight() - 1);
 	g2.setColor(Color.darkGray);
-	g2.drawString(name, 15 * type + 5, 15);
+	g2.setFont(new Font("Courier", 0, 12));
+	g2.drawString(name, 25 * type + 5, 15);
 	
 	String p1 = "";
 	String p2 = "";
@@ -84,14 +87,19 @@ public class Element {
 
 	if (type == TYPE_ITEM || type == TYPE_SECTION) {
 	    if (earndPoints != -1)
-	    	p1 = String.format("%8.2f  /  ", earndPoints);
+	    	p1 = String.format("%6.2f  /  ", earndPoints);
 	    if (totalPoints != -1)
-	    	p2 = String.format("%8.2f  =", totalPoints);
+	    	p2 = String.format("%6.2f  =", totalPoints);
 	    if (earndPoints != -1 && totalPoints != -1)
-	    	p3 = String.format("  %7.2f", earndPoints / totalPoints * 100);
+	    	p3 = String.format("  %7.2f %%", earndPoints / totalPoints * 100);
+	}
+	
+	if (type == TYPE_COURSE) {
+	    g2.setFont(new Font("Courier", 1, 12));
+	    p3 = String.format("%.2f %%", percentage);
 	}
 
-	if (totalPoints != -1) {
+	if (totalPoints != -1 || type == TYPE_COURSE) {
 	    g2.drawString(String.format("%s%s%s", p1, p2, p3), 200, 15);
 	}
 

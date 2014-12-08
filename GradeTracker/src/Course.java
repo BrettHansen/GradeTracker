@@ -10,15 +10,16 @@ public class Course {
     public boolean collapsed;
     
     public Course(String name) {
-	collapsed = false;
+	collapsed = true;
 	
 	this.name = name;
 	sections = new ArrayList<Section>();
-	element = new Element(Element.TYPE_COURSE, name);
+	element = new Element(Element.TYPE_COURSE, getName() + name);
     }
     
     public void addSection(Section sect) {
 	sections.add(sect);
+	updatePoints();
     }
     
     public double getGrade() {
@@ -41,5 +42,14 @@ public class Course {
     
     public void toggleCollapsed() {
 	collapsed = !collapsed;
+	element.name = getName() + name;
+    }
+    
+    public void updatePoints() {
+	element.percentage = getGrade();
+    }
+    
+    private String getName() {
+	return (collapsed ? " [+] " : " [-] ");
     }
 }
